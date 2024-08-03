@@ -2,3 +2,8 @@
 .vscode/
 node_modules/
 build/
+
+*.png
+*.webp
+*.jpeg
+*.jpg
