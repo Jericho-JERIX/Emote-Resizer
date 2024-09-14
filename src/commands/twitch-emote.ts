@@ -1,9 +1,11 @@
 import {
-	ApplicationCommandOptionType,
+    ApplicationCommandOptionType,
 } from "discord.js";
-import { SlashCommand } from "../scripts/types/SlashCommand";
-import axios from "axios";
 import sharp from "sharp";
+import { generateImageProfile } from "../modules/GenerateImageProfile";
+import { getDiscordEmoteBuffers } from "../modules/GetDiscordEmoteBuffers";
+import { processImage } from "../modules/ProcessImage";
+import { SlashCommand } from "../scripts/types/SlashCommand";
 
 export const TwitchEmote: SlashCommand = {
 	name: "twitch-emote",
@@ -49,38 +51,29 @@ export const TwitchEmote: SlashCommand = {
         const emoteName = emote.split(":")[1];
         const emoteId = emote.split(":")[2].split(">")[0];
 
-        const emoteBaseUrl = `https://cdn.discordapp.com/emojis/${emoteId}.png?size=96&quality=lossless`
+        const emoteSlug = `${emoteName}_${emoteId}`;
 
-        const imageResponse = await axios.get(emoteBaseUrl, {
-            responseType: 'arraybuffer',
-          });
+        const images = await getDiscordEmoteBuffers(emoteId);
+        
+        let imageProfile;
+        let image;
 
-        const image = sharp(imageResponse.data).toFormat('png') //.resize(112, 112).toBuffer();
-
-        let imageBuffer = null
-
-        if (respectRatio) {
-
-            const { width, height } = await image.metadata();
-            if (!width || !height) return;
-            else if (width > height) {
-                imageBuffer = await image.resize({ width: 112 }).toBuffer();
-            }
-            else {
-                imageBuffer = await image.resize({ height: 112 }).toBuffer();
-            }
+        if (!images.animatedBuffer) {
+            imageProfile = generateImageProfile(emoteSlug, "png");
+            image = sharp(images.staticBuffer).toFormat('png');
         }
         else {
-            imageBuffer = await image.resize({ width: 112, height: 112 }).toBuffer();
+            imageProfile = generateImageProfile(emoteSlug, "gif");
+            image = sharp(images.animatedBuffer, { animated: true }).gif()
         }
-            
-        await sharp(imageBuffer).toFile('src/resources/test.png');
 
+        const processedImage = await processImage(image, { respectRatio });
+        await processedImage.toFile(imageProfile.filePath);
         await interaction.reply({
             files: [
                 {
-                    attachment: 'src/resources/test.png',
-                    name: `${emoteName}_${emoteId}.png`
+                    attachment: imageProfile.filePath,
+                    name: imageProfile.filename
                 }
             ]
         });
