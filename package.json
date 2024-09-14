@@ -5,7 +5,7 @@
 		"dotenv": "^16.0.3",
 		"sharp": "^0.33.4"
 	},
-	"name": "docket-bot",
+	"name": "emote-resizer",
 	"version": "1.0.0",
 	"main": "build/index.js",
 	"devDependencies": {
@@ -21,14 +21,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Jericho-JERIX/Docket-Bot.git"
+		"url": "git+https://github.com/Jericho-JERIX/Emote-Resizer.git"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/Jericho-JERIX/Docket-Bot/issues"
+		"url": "https://github.com/Jericho-JERIX/Emote-Resizer/issues"
 	},
-	"homepage": "https://github.com/Jericho-JERIX/Docket-Bot#readme",
+	"homepage": "https://github.com/Jericho-JERIX/Emote-Resizer#readme",
 	"description": ""
 }
