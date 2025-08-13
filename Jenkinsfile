@@ -9,6 +9,9 @@ pipeline {
     stages {
         stage('Setup Environment') {
             steps {
+                script {
+                    currentBuild.displayName = "Create environment file with credentials"
+                }
                 sh '''
                 cp $ENV_FILE .env
                 '''
@@ -16,6 +19,9 @@ pipeline {
         }
         stage('Build Image') {
             steps {
+                script {
+                    currentBuild.displayName = "Build Docker image: ${IMAGE_NAME}"
+                }
                 sh '''
                 docker build -t $IMAGE_NAME:latest .
                 '''
@@ -23,6 +29,9 @@ pipeline {
         }
         stage('Run Container') {
             steps {
+                script {
+                    currentBuild.displayName = "Run Docker container: ${CONTAINER_NAME} on port: ${PORT}"
+                }
                 sh '''
                 docker stop $CONTAINER_NAME || true && docker rm $CONTAINER_NAME || true
                 docker run -d --name $CONTAINER_NAME -p $PORT:3000 $IMAGE_NAME:latest
