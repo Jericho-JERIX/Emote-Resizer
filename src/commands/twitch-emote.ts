@@ -32,7 +32,7 @@ export const TwitchEmote: SlashCommand = {
 
 		if (emote.split(":").length < 3) {
 			await interaction.reply({
-				content: "Invalid emote format. Please type only an emote.",
+				content: "Invalid emote format. Please try again by type only an emote.",
 				files: [
 					{
 						attachment: "src/assets/how-to-use.png",
