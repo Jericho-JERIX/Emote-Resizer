@@ -3,8 +3,8 @@
 node_modules/
 build/
 
-*.png
-*.webp
-*.jpeg
-*.jpg
-*.gif
+src/resources/*.png
+src/resources/*.webp
+src/resources/*.jpeg
+src/resources/*.jpg
+src/resources/*.gif
