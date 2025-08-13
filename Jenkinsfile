@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         ENV_FILE=credentials('emote-resizer-env-file')
-        PORT=8000
+        PORT=8008
         IMAGE_NAME='emote-resizer-prod'
         CONTAINER_NAME='emote-resizer-prod-container'
     }
